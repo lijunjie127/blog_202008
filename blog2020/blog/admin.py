@@ -6,8 +6,16 @@ from .models import Post, Category, Tag
 from .adminForms import PostAdminForm
 
 # Register your models here.
+class PostInline(admin.TabularInline):
+    fields = ('title', 'desc')
+    extra = 1  # 控制额外多几个
+    model = Post
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    inlines = [PostInline, ]
+
     list_display = ('name', 'status', 'is_nav', 'owner', 'created_time', 'post_count')
     fields = ('name', 'status', 'is_nav')
 
@@ -86,3 +94,5 @@ class PostAdmin(admin.ModelAdmin):
     class Media:
         css = {'all': 'https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css'}
         js = {'https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.js'}
+
+
